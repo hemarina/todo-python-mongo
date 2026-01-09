@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - master
+      - test
 
 # GitHub Actions workflow to deploy to Azure using azd
 # To configure required secrets for connecting to Azure, simply run `azd pipeline config`
@@ -32,6 +33,9 @@ jobs:
       - name: Install azd
         uses: Azure/setup-azd@v2
 
+      - name: Install azd (Test Main)
+        uses: Azure/setup-azd@main
+
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
         run: |
@@ -55,10 +59,8 @@ jobs:
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Provision Infrastructure
-        run: azd provision --no-prompt
-        env:
-          AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
-
-      - name: Deploy Application
-        run: azd deploy --no-prompt
+      - name: Test customer bug
+        run: |
+          azd version
+          azd config set cloud.name AzureChinaCloud
+          azd auth login --client-id ${{ secrets.AZURE_CLIENT_ID }} --client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --tenant-id ${{ secrets.AZURE_TENANT_ID }}
