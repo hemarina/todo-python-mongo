@@ -60,6 +60,7 @@ jobs:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Test customer bug
+        if: ${{ env.AZURE_CLIENT_ID != '' }}
         run: |
           azd version
           azd config set cloud.name AzureChinaCloud
@@ -67,3 +68,4 @@ jobs:
             --client-id "$Env:AZURE_CLIENT_ID" `
             --federated-credential-provider "github" `
             --tenant-id "$Env:AZURE_TENANT_ID"
+        shell: pwsh
