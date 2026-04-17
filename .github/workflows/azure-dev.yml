@@ -30,6 +30,13 @@ jobs:
       - uses: Azure/setup-azd@main
       - run: azd version
 
+  test-hemarina-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hemarina/setup-azd@fix/build-node24
+      - run: azd version
+      
   test-pinned:
     runs-on: ubuntu-latest
     steps:
