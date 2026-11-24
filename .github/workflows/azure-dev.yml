@@ -46,5 +46,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: Azure/setup-azd@v2.4.0
+      - uses: Azure/setup-azd@v2.4.1
       - run: azd version
